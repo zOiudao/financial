@@ -62,8 +62,7 @@ def relatorio():
             f'{i.valor:.2f}',
         )
         
-    tb.add_row('Receita', '', '', 'Total', f'R$ {receita_soma:.2f}')
-    tb.add_row('')
+    tb.add_row('Receita', '', '', 'Total', f'R$ {receita_soma:.2f}', style='blue bold')
     tb.add_row('Nome', 'Insituição', 'Tipo', 'Descrição', 'Despesa', style='red')
     
     for i in despesa:
@@ -75,9 +74,8 @@ def relatorio():
             f'{i.valor:.2f}', 
         )
         
-    tb.add_row('Despesa', '', '', 'Total', f'R$ {despesa_soma:.2f}')
-    tb.add_row('')
-    tb.add_row('', '', '', 'Saldo', f'R$ {receita_soma - despesa_soma}')
+    tb.add_row('Despesa', '', '', 'Total', f'R$ {despesa_soma:.2f}', style='red bold')
+    tb.add_row('Saldo', '', '', 'Total', f'R$ {receita_soma - despesa_soma}', style='green bold')
     
     return print(tb)
     
