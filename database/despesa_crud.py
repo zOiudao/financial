@@ -8,7 +8,7 @@ ftime = '%d/%m/%Y %H:%M:%S'
 
 class DespesaCRUD:
     def despesa_create(self):
-        user_name = usuario_menu()
+        user_name = usuario_menu('Selecione abaixo o nome de quem gerou a despesa.')
         inst_name = instituicao_menu()
         user = session.query(Usuario).filter_by(nome=user_name).one()
         inst = session.query(Instituicao).filter_by(nome=inst_name).one()

@@ -3,12 +3,12 @@ from InquirerPy import prompt
 from os import system
 
 
-def usuario_menu():
+def usuario_menu(msg):
     names = [i.nome for i in session.query(Usuario).all()]
     users_menu = [
         {
             'type': 'list',
-            'message': 'Selecione o usuário abaixo',
+            'message': msg,
             'choices': names,
             'name': 'user'
         }
@@ -48,6 +48,7 @@ def menu_principal():
     from database.usuario_crud import menu_usuario_crud
     from database.instituicao_crud import menu_instituicao_crud
     from database.despesa_crud import menu_despesa_crud
+    from database.relatorio import menu_relatorio
     menu = [
         {
             'type': 'list',
@@ -66,8 +67,7 @@ def menu_principal():
     if resultado['m'] == 'Despesa':
         menu_despesa_crud()
     if resultado['m'] == 'Relatório':
-        #menu_relatorio_crud()
-        pass
+        menu_relatorio()
     if resultado['m'] == 'Sair':
         print('Sistema encerrado!')
         return

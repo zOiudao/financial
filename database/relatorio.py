@@ -1,3 +1,5 @@
+from InquirerPy import prompt
+from os import system
 from .data import *
 from rich import print
 from rich.table import Table
@@ -80,4 +82,18 @@ def relatorio():
     return print(tb)
     
     
-    
+def menu_relatorio():
+    from menu.menu import menu_principal
+    menu = [
+        {
+            'type': 'list',
+            'message': 'Opções instituição',
+            'choices': ['Exibir relatório', 'Voltar'],
+            'name': 'inst'
+        }
+    ]
+    resp = prompt(menu)
+    if resp['inst'] == 'Exibir relatório':
+        relatorio()
+    if resp['inst'] == 'Voltar':
+        menu_principal()

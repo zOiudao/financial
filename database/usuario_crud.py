@@ -1,6 +1,9 @@
 from .data import Usuario, session
 from os import system
 from InquirerPy import prompt
+from rich import print
+from rich.table import Table
+
 
 class UsuarioCRUD:
     def usuario_create(self):
@@ -19,9 +22,33 @@ class UsuarioCRUD:
             system('clear')
             print(f'{create.nome} \n-Cadastrado com sucesso!')
             menu_voltar()
-            return
         except:
             return print('Não foi possivel realizar o cadastro!')
+        finally:
+            return
+        
+    
+    def usuario_read(self):
+        tb = Table(show_lines=True, style='green')
+        tb_header = 'nome', 'cpf', 'email', 'data',
+        for i in range(len(tb_header)):
+            tb.add_column(tb_header[i].capitalize(), style='blue')
+        for i in session.query(Usuario).all():
+            tb.add_row(
+                i.nome,
+                i.cpf,
+                i.email,
+                i.data.strftime('%d/%m/%Y %H:%M:%S')
+            )
+        print(tb)
+        return
+    
+    
+    def usuario_update(self):
+        from menu.menu import usuario_menu
+        self.usuario_read()
+        usuario_menu('Selecione abaixo o usuário que deseja editar')
+        
         
         
 def menu_voltar():
@@ -41,6 +68,7 @@ def menu_voltar():
     if resultado['v'] == 'Voltar':
         menu_usuario_crud()
         
+
 def menu_usuario_crud():
     system('clear')
     from menu.menu import menu_principal
