@@ -17,6 +17,8 @@ class Usuario(Base):
     email=Column(String(60), nullable=False)
     senha=Column(String(60), nullable=False)
     data=Column(DateTime, default=lambda: datetime.now(tmz))
+    despesa = relationship('Despesa', back_populates="usuario")
+    receita = relationship('Receita', back_populates="usuario")
     
     def __init__(self, nome, cpf, email, senha):
         self.nome = nome
@@ -49,6 +51,7 @@ class Despesa(Base):
     valor=Column(Float, nullable=False)
     parcelas=Column(Integer, nullable=False)
     data=Column(DateTime, default=lambda: datetime.now(tmz))
+    usuario = relationship('Usuario', back_populates="despesa")
     instituicao = relationship('Instituicao', back_populates="despesa")
     
     def __init__(self, user_id, inst_id, valor, parcelas):
@@ -66,6 +69,7 @@ class Receita(Base):
     valor=Column(Float, nullable=False)
     data=Column(DateTime, default=lambda: datetime.now(tmz))
     instituicao = relationship('Instituicao', back_populates="receita")
+    usuario = relationship('Usuario', back_populates="receita")
     
     def __init__(self, user_id, inst_id, valor):
         self.usuario_id = user_id

@@ -1,13 +1,9 @@
-from database.usuario_crud import UsuarioCRUD
-from database.instituicao_crud import InstituicaoCRUD
-from database.receita_crud import ReceitaCRUD
-
-user = UsuarioCRUD()
-inst = InstituicaoCRUD()
-rece = ReceitaCRUD()
+from menu.menu import menu_principal
+from database.relatorio import relatorio_receita, relatorio_despesa, relatorio
 
 if __name__ == '__main__':
-    #user.usuario_create()
-    #inst.instituicao_crate()
-    rece.receita_create()
+    #relatorio_receita()
+    #relatorio_despesa()
+    relatorio()
+    #menu_principal()
     pass
