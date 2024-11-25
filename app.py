@@ -1,6 +1,7 @@
-from menu.menu import menu_principal
-from database.relatorio import relatorio_receita, relatorio_despesa, relatorio
+from menu.menu import menu_principal, receita_menu
+
 
 if __name__ == '__main__':
+    
     menu_principal()
     pass

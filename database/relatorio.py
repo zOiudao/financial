@@ -53,8 +53,8 @@ def relatorio():
     receita_soma = sum(i.valor for i in session.query(Receita).all())
     despesa_soma = sum(i.valor for i in session.query(Despesa).all())
     
-    tb = Table(show_lines=True, style='green', show_header=False)
-    tb.add_row('Nome', 'Insituição', 'Tipo', 'Descrição', 'Receita', style='blue')
+    tb = Table(show_lines=True, style='#696969', show_header=False)
+    tb.add_row('Nome', 'Insituição', 'Tipo', 'Descrição', 'Receita', style='#90EE90')
     for i in receita:
         tb.add_row(
             i.usuario.nome,
@@ -62,10 +62,11 @@ def relatorio():
             i.instituicao.tipo,
             i.instituicao.descricao,
             f'{i.valor:.2f}',
+            style='#ADD8E6'
         )
         
-    tb.add_row('Receita', '', '', 'Total', f'R$ {receita_soma:.2f}', style='blue bold')
-    tb.add_row('Nome', 'Insituição', 'Tipo', 'Descrição', 'Despesa', style='red')
+    tb.add_row('Receita', '--', '--', 'Total', f'R$ {receita_soma:.2f}', style='#90EE90 bold')
+    tb.add_row('Nome', 'Insituição', 'Tipo', 'Descrição', 'Despesa', style='#DAA520')
     
     for i in despesa:
         tb.add_row(
@@ -73,11 +74,12 @@ def relatorio():
             i.instituicao.nome,
             i.instituicao.tipo,
             i.instituicao.descricao,
-            f'{i.valor:.2f}', 
+            f'{i.valor:.2f}',
+            style='#ADD8E6'
         )
         
-    tb.add_row('Despesa', '', '', 'Total', f'R$ {despesa_soma:.2f}', style='red bold')
-    tb.add_row('Saldo', '', '', 'Total', f'R$ {receita_soma - despesa_soma}', style='green bold')
+    tb.add_row('Despesa', '--', '--', 'Total', f'R$ {despesa_soma:.2f}', style='#DAA520 bold')
+    tb.add_row('Saldo', '--', '--', 'Total', f'R$ {receita_soma - despesa_soma}', style='green bold')
     
     return print(tb)
     

@@ -1,10 +1,10 @@
-from database.data import Usuario, Instituicao, session
+from database.data import Usuario, Instituicao, session, Receita
 from InquirerPy import prompt
 from os import system
 
 
-def usuario_menu(msg):
-    names = [i.nome for i in session.query(Usuario).all()]
+def bd_menu(bd_name, msg):
+    names = [i.nome for i in session.query(bd_name).all()]
     users_menu = [
         {
             'type': 'list',
@@ -17,30 +17,23 @@ def usuario_menu(msg):
     return resultado['user']
 
 
-def instituicao_menu():
-    inst_names = [i.nome for i in session.query(Instituicao).all()]
-    inst_menu = [
+def sim_ou_nao(msg):
+    yn = [
         {
             'type': 'list',
-            'message': 'Selecione a instituição abaixo',
-            'choices': inst_names,
-            'name': 'inst'
+            'message': msg,
+            'choices': ['Sim', 'Não'],
+            'name': 'yn'
         }
     ]
-    resultado = prompt(inst_menu)
-    return resultado['inst']
+    res = prompt(yn)
+    return res['yn']
 
 
-def receita_menu():
-    pass
+def receita_menu(msg):
+    nome = [i.usuario.nome for i in session.query(Receita).all()]
+    print(nome)
 
-
-def despesa_menu():
-    pass
-
-
-def relatorio_menu():
-    pass
 
 def menu_principal():
     system('clear')
@@ -52,7 +45,7 @@ def menu_principal():
     menu = [
         {
             'type': 'list',
-            'message': 'Selecione uma das opções abaixo.',
+            'message': 'Selecione a opção abaixo.',
             'choices': ['Usuário', 'Instituição', 'Receita', 'Despesa', 'Relatório', 'Sair'],
             'name': 'm'
         }
@@ -70,4 +63,3 @@ def menu_principal():
         menu_relatorio()
     if resultado['m'] == 'Sair':
         print('Sistema encerrado!')
-        return
