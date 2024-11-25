@@ -28,7 +28,7 @@ class InstituicaoCRUD:
         tb = Table(show_lines=True, style='green')
         tb_header = 'nome', 'tipo', 'descrição', 'data',
         for i in range(len(tb_header)):
-            tb.add_column(tb_header[i].capitalize(), style='blue')
+            tb.add_column(tb_header[i].capitalize(), style='blue', no_wrap=True)
         for i in session.query(Instituicao).all():
             tb.add_row(
                 i.nome,

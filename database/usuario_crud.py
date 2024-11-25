@@ -31,7 +31,7 @@ class UsuarioCRUD:
         tb = Table(show_lines=True, style='green')
         tb_header = 'nome', 'cpf', 'email', 'data',
         for i in range(len(tb_header)):
-            tb.add_column(tb_header[i].capitalize(), style='blue')
+            tb.add_column(tb_header[i].capitalize(), style='blue', no_wrap=True)
         for i in session.query(Usuario).all():
             tb.add_row(
                 i.nome,

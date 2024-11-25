@@ -2,10 +2,15 @@ from .data import Despesa, session, Usuario, Instituicao
 from menu.menu import bd_menu, sim_ou_nao, menu_principal
 from os import system
 from time import sleep
+from datetime import datetime
+import pytz
 from InquirerPy import prompt
 from rich.table import Table
 from rich import print
 ftime = '%d/%m/%Y %H:%M:%S'
+tmz = pytz.timezone('America/Sao_Paulo')
+ftime = '%d/%m/%Y %H:%M:%S'
+dt_atual = datetime.now(tmz)
 
 class DespesaCRUD:
     def despesa_create(self):
@@ -51,29 +56,22 @@ class DespesaCRUD:
                 i.data.strftime(ftime)
             )
         total = sum(i.valor for i in session.query(Despesa).all())
+        tb.add_row('-', 'Despesa total:', '-', '-', '-', f'R$ {total:.2f}', dt_atual.strftime(ftime), style='#B22222')
         print(tb)
         print(f'O valor total das despesas é: R$: {total:.2f}')
-        
-        yn = sim_ou_nao('Voltar ao menu?')
-        if yn == 'Sim':
-            system('clear')
-            menu_despesa_crud()
-        else:
-            system('clear')
-            print('Sistema encerrado. \n-Volte sempre!')
-            return
     
     
     def despesa_delete(self):
-        inst_nome = bd_menu(Despesa, 'Selecione a despesa que deseja deletar.')
-        _del = session.query(Despesa).filter_by(nome=inst_nome).one()
+        self.despesa_read()
+        des_id = int(input('Digite o ID da despesa que deseja deletar: '))
+        _del = session.query(Despesa).filter_by(id=des_id).one()
         
-        conf = sim_ou_nao(f'Tem certeza que deseja deletar o cadastro da despesa {_del.nome}?')
+        conf = sim_ou_nao(f'Tem certeza que deseja deletar o cadastro da despesa?')
         if conf == 'Sim':
             session.delete(_del)
             session.commit()
             session.close()
-            print(f'{inst_nome} deletado com sucesso! \n--Voltar ao menu!')
+            print(f'Deletado com sucesso! \n--Voltar ao menu!')
         else:
             session.close()
             print('Operação cancelada! \n--Voltar ao menu!')
@@ -89,15 +87,13 @@ def menu_despesa_crud():
         {
             'type': 'list',
             'message': 'Opções despesa',
-            'choices': ['Cadastrar', 'Exibir', 'Deletar', 'Voltar'],
+            'choices': ['Cadastrar', 'Deletar', 'Voltar'],
             'name': 'rec'
         }
     ]
     resp = prompt(create)
     if resp['rec'] == 'Cadastrar':
         despesa.despesa_create()
-    if resp['rec'] == 'Exibir':
-        despesa.despesa_read()
     if resp['rec'] == 'Deletar':
         despesa.despesa_delete()
     if resp['rec'] == 'Voltar':
